@@ -1,12 +1,12 @@
 
 # OCP Parameters
-ocp_url: https://<required>:6443
-ocp_username: <required>  # a cluster admin user
-ocp_password: <required>
+ocp_url: https://api-int.cp4d.datalake.vnpt.vn:6443
+ocp_username: kubeadmin  # a cluster admin user
+ocp_password: RuZx9-4woQB-AsXeQ-k8bF9
 ocp_token: <required if user/password not available>
 
-storageClass_ReadWriteOnce: <required> # eg "ocs-storagecluster-ceph-rbd"
-storageClass_ReadWriteMany: <required>  # eg "ocs-storagecluster-cephfs"
+storageClass_ReadWriteOnce: ibm-spectrum-scale-sc # eg "ocs-storagecluster-ceph-rbd"
+storageClass_ReadWriteMany: ibm-spectrum-scale-sc # eg "ocs-storagecluster-cephfs"
 
 run_storage_perf: true
 
@@ -14,21 +14,21 @@ arch: amd64  # amd64, ppc64le
 
 ############################ STORAGE PERFORMANCE PARAMETERS START #######################
 # vars file for roles/storage-perf-test
-storage_perf_namespace: <required>  # openshift namespace/project where jobs will be executed, it will be created by playbook if not already existing.
+storage_perf_namespace: k8s-storage-perf  # openshift namespace/project where jobs will be executed, it will be created by playbook if not already existing.
 logfolder: '.logs'
 imageurl: quay.io/ibm-cp4d-public/xsysbench:1.1
 
 cluster_infrastructure: ibmcloud # optional labels eg ibmcloud, aws, azure, vmware
 cluster_name: storage-performance-cluster # optional labels 
-storage_type: ocs # optional label eg portworx, ocs, <storage vendor>
+storage_type: ibm-ess # optional label eg portworx, ocs, <storage vendor>
 
 # To run the performace jobs on a dedicated compute nodes, set the node label which meet the criteria.
 # The idea is to gather performance data when the jobs are running remotely from a storage node.
 # A cluster administrator can label a node by running this query with appropriate label key/value: 
 # oc label node <node name> "<label_key>=<label_value>" --overwrite
 dedicated_compute_node:
-   label_key: "<optional>"
-   label_value: "<optional>"
+   label_key: k8s-storage-perf-node
+   label_value: test-node
 
 rwx_storagesize: 10Gi
 rwo_storagesize: 10Gi
